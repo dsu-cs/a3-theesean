@@ -87,6 +87,61 @@ template<class T>
 template<class T>
 void BST<T>::insert(T new_data)
 {
+	
+	Node<T> *new_node = new Node<T>(new_data);//create node
+
+	if(root == NULL)//make node root if tree is empty
+	{
+		root = new_node;
+	}
+	else
+	{
+		Node<T> *cur = root;
+		if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
+		{
+			delete(cur);
+			delete(new_node);
+			return;
+		}
+		while(cur != NULL)
+		{
+				if(new_node->get_data() < cur->get_data())
+				{
+			                if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
+			                {
+                        			delete(cur);
+                        			delete(new_node);
+                        			return;
+                			}
+
+					if(cur->get_left() == NULL)
+					{
+						cur->set_left(new_node);
+						delete(cur);
+					}
+					else
+						cur = cur->get_left();
+				}
+				else
+                			if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
+                			{
+                        			delete(cur);
+                        			delete(new_node);
+                        			return;
+			                }
+			
+					if(cur->get_right() == NULL)
+					{
+						cur->set_right(new_node);
+						delete(cur);
+					}
+					else
+					{
+						cur = cur->get_right();
+					}
+		}
+		return;
+	}
 
 }
 

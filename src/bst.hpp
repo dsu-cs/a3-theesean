@@ -109,15 +109,13 @@ void BST<T>::insert(T new_data)
 				{
 			                if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
 			                {
-                        			delete(cur);
-                        			delete(new_node);
                         			return;
                 			}
 
 					if(cur->get_left() == NULL)
 					{
 						cur->set_left(new_node);
-						delete(cur);
+						return;
 					}
 					else
 						cur = cur->get_left();
@@ -125,15 +123,13 @@ void BST<T>::insert(T new_data)
 				else
                 			if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
                 			{
-                        			delete(cur);
-                        			delete(new_node);
                         			return;
 			                }
 			
 					if(cur->get_right() == NULL)
 					{
 						cur->set_right(new_node);
-						delete(cur);
+						return;
 					}
 					else
 					{
@@ -149,7 +145,24 @@ void BST<T>::insert(T new_data)
 template<class T>
 Node<T> *BST<T>::search(T val)
 {
-
+	Node<T> *cur = root;
+	while(cur != NULL)
+	{
+		if(val == cur->get_data())
+		{
+			return(cur);
+		}
+		else if(val < cur->get_data())
+		{
+			cur = cur->get_left();
+		}
+		else
+		{
+			cur = cur->get_right();
+		}
+	}
+	delete(cur);
+	return NULL;
 }
 
 
@@ -165,5 +178,6 @@ void BST<T>::remove(T val)
 template<class T>
 int BST<T>::get_size()
 {
-
+	int size;
+	
 }

@@ -93,17 +93,17 @@ void BST<T>::insert(T new_data)
 	if(root == NULL)//make node root if tree is empty
 	{
 		root = new_node;
+		node_count = node_count + 1;//incement count
 	}
 	else
 	{
 		Node<T> *cur = root;
 		if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
 		{
-			delete(cur);
 			delete(new_node);
 			return;
 		}
-		while(cur != NULL)
+		while(cur != NULL)//find designation location in the list
 		{
 				if(new_node->get_data() < cur->get_data())
 				{
@@ -112,29 +112,33 @@ void BST<T>::insert(T new_data)
                         			return;
                 			}
 
-					if(cur->get_left() == NULL)
+					if(cur->get_left() == NULL)//place node
 					{
 						cur->set_left(new_node);
+						node_count = node_count + 1;
 						return;
 					}
 					else
 						cur = cur->get_left();
 				}
 				else
+				{
                 			if (cur->get_data() == new_node->get_data())//make sure number is not already in tree
                 			{
                         			return;
 			                }
 			
-					if(cur->get_right() == NULL)
+					if(cur->get_right() == NULL)//place node
 					{
 						cur->set_right(new_node);
+						node_count = node_count + 1;
 						return;
 					}
 					else
 					{
 						cur = cur->get_right();
 					}
+				}
 		}
 		return;
 	}
@@ -178,6 +182,5 @@ void BST<T>::remove(T val)
 template<class T>
 int BST<T>::get_size()
 {
-	int size;
-	
+	return(node_count);
 }

@@ -174,7 +174,100 @@ Node<T> *BST<T>::search(T val)
 template<class T>
 void BST<T>::remove(T val)
 {
-
+	Node<T> *par = NULL;
+	Node<T> *cur = root;
+	Node<T> *suc = NULL;
+	int sucData;
+	while(cur != NULL)//search for node
+	{
+		if(cur->get_data() == val)
+		{
+			if(cur->get_left() == NULL  &&	cur->get_right() == NULL)//remove leaf
+			{
+				node_count = node_count - 1;
+				if(par == NULL)
+				{	
+					root = NULL;
+					return;
+				}
+				else if(par->get_left() == cur)
+				{
+					par->set_left(NULL);
+					return;
+				}	
+				else
+				{
+					par->set_right(NULL);
+					return;
+				}
+			}
+			
+		
+			else if (cur->get_left() != NULL && cur->get_right() == NULL)//remove node with only left child
+			{
+				node_count = node_count - 1;
+				if(par == NULL)//Node is root
+				{
+					root = cur->get_left();
+					return;
+				}
+				else if(par->get_left() == cur)
+				{
+					par->set_left(cur->get_left());
+					return;
+				}	
+				else
+				{
+					par->set_right(cur->get_left());
+					return;
+				}
+			}
+			else if (cur->get_left() == NULL && cur->get_right() != NULL)//remove node with only right child
+			{
+				node_count = node_count - 1;
+				if(par == NULL)//Node is root
+				{
+					root = cur->get_right();
+					return;
+				}	
+				else if(par->get_left() == cur)
+				{
+					par->set_left(cur->get_right());
+					return;
+				}
+				else 
+				{
+					par->set_right(cur->get_right());	
+					return;
+				}
+			}
+			else//remove node with two children
+			{
+				suc = cur->get_right();
+				while(suc->get_left() != NULL)
+				{
+					suc = suc->get_left();
+				}
+				sucData = suc->get_data();
+				remove(sucData);
+				cur->set_data(sucData); 
+				return;
+			}
+			return;
+		}
+		else if(cur->get_data() < val)
+		{
+			par = cur;
+			cur = cur->get_right();
+		}
+		else
+		{
+			par = cur;
+			cur = cur->get_left();
+		}
+		
+	}
+	return;//node not found
 }
 
 

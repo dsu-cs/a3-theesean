@@ -35,6 +35,8 @@ public:
     // Gets the current number of nodes in the tree
     // returns: the number of nodes in the tree
     int get_size(void);
+    //used for inorder travel
+    void inorderTrav(Node<T> *cur, std::vector<T> *vec);
 private:
     // the root node of the tree
     Node<T> *root;
@@ -60,11 +62,25 @@ BST<T>::~BST()
 }
 
 template<class T>
- std::vector<T> * BST<T>::inorder()
+void BST<T>::inorderTrav(Node<T> *cur, std::vector<T> *vec)
 {
-    std::vector<T> *vec = new std::vector<T>;
+	if(cur == NULL)//check if NULL
+	{
+		return;
+	}
+	inorderTrav(cur->get_left(), vec);//recursive with left
+	vec->push_back(cur->get_data());//add value to vector
+	inorderTrav(cur->get_right(), vec);//recursive with right
+}
 
-    return vec;
+template<class T>
+std::vector<T> * BST<T>::inorder()
+{
+	
+	std::vector<T> *vec = new std::vector<T>;
+	Node<T> *cur = root;//create cur node
+	inorderTrav(cur, vec);//call inorderTrav
+	return vec;
 }
 
 

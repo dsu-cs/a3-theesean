@@ -37,6 +37,8 @@ public:
     int get_size(void);
     //used for inorder travel
     void inorderTrav(Node<T> *cur, std::vector<T> *vec);
+    void preorderTrav(Node<T> *cur, std::vector<T> *vec);
+    void postorderTrav(Node<T> *cur, std::vector<T> *vec);
 private:
     // the root node of the tree
     Node<T> *root;
@@ -83,21 +85,51 @@ std::vector<T> * BST<T>::inorder()
 	return vec;
 }
 
+template<class T>
+void BST<T>::preorderTrav(Node<T> *cur, std::vector<T> *vec)
+{
+        if(cur == NULL)//check if NULL
+        {
+                return;
+        }
+	vec->push_back(cur->get_data());//add value to vector
+        preorderTrav(cur->get_left(), vec);//recursive with left
+        preorderTrav(cur->get_right(), vec);//recursive with right
+}
+
+
 
 template<class T>
  std::vector<T> * BST<T>::preorder()
 {
-    std::vector<T> *vec = new std::vector<T>;
-    return vec;
+        std::vector<T> *vec = new std::vector<T>;
+        Node<T> *cur = root;
+        preorderTrav(cur, vec);
+        return vec;
+
 }
+
+template<class T>
+void BST<T>::postorderTrav(Node<T> *cur, std::vector<T> *vec)
+{
+        if(cur == NULL)//check if NULL
+        {
+                return;
+        }
+        postorderTrav(cur->get_left(), vec);//recursive with left
+        postorderTrav(cur->get_right(), vec);//recursive with right
+        vec->push_back(cur->get_data());//add value to vector	
+}
+
 
 
 template<class T>
  std::vector<T> * BST<T>::postorder()
 {
-    std::vector<T> *vec = new std::vector<T>;
-
-    return vec;
+    	std::vector<T> *vec = new std::vector<T>;
+	Node<T> *cur = root;//create current node
+	postorderTrav(cur, vec);//call function to traverse 
+   	return vec;
 }
 
 template<class T>

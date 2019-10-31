@@ -37,7 +37,9 @@ public:
     int get_size(void);
     //used for inorder travel
     void inorderTrav(Node<T> *cur, std::vector<T> *vec);
+    //use for inorder traversal
     void preorderTrav(Node<T> *cur, std::vector<T> *vec);
+    //use for postorder traversal
     void postorderTrav(Node<T> *cur, std::vector<T> *vec);
 private:
     // the root node of the tree
@@ -103,8 +105,8 @@ template<class T>
  std::vector<T> * BST<T>::preorder()
 {
         std::vector<T> *vec = new std::vector<T>;
-        Node<T> *cur = root;
-        preorderTrav(cur, vec);
+        Node<T> *cur = root;//create cur node
+        preorderTrav(cur, vec);//call preorder traversal
         return vec;
 
 }
@@ -166,7 +168,7 @@ void BST<T>::insert(T new_data)
 						node_count = node_count + 1;
 						return;
 					}
-					else
+					else//move left
 						cur = cur->get_left();
 				}
 				else
@@ -182,7 +184,7 @@ void BST<T>::insert(T new_data)
 						node_count = node_count + 1;
 						return;
 					}
-					else
+					else//move right
 					{
 						cur = cur->get_right();
 					}
@@ -197,24 +199,23 @@ void BST<T>::insert(T new_data)
 template<class T>
 Node<T> *BST<T>::search(T val)
 {
-	Node<T> *cur = root;
+	Node<T> *cur = root;//create cur node
 	while(cur != NULL)
 	{
-		if(val == cur->get_data())
+		if(val == cur->get_data())//if found
 		{
 			return(cur);
 		}
-		else if(val < cur->get_data())
+		else if(val < cur->get_data())//move left
 		{
 			cur = cur->get_left();
 		}
-		else
+		else//move right
 		{
 			cur = cur->get_right();
 		}
 	}
-	delete(cur);
-	return NULL;
+	return NULL;//node not found
 }
 
 
@@ -222,30 +223,33 @@ Node<T> *BST<T>::search(T val)
 template<class T>
 void BST<T>::remove(T val)
 {
-	Node<T> *par = NULL;
+	Node<T> *par = NULL;//create nodes for going throught the list
 	Node<T> *cur = root;
 	Node<T> *suc = NULL;
-	int sucData;
+	int sucData;//sucessor data
 	while(cur != NULL)//search for node
 	{
 		if(cur->get_data() == val)
 		{
 			if(cur->get_left() == NULL  &&	cur->get_right() == NULL)//remove leaf
 			{
-				node_count = node_count - 1;
+				node_count = node_count - 1;//decrement count
 				if(par == NULL)
 				{	
 					root = NULL;
+					delete(cur);
 					return;
 				}
 				else if(par->get_left() == cur)
 				{
 					par->set_left(NULL);
+					delete(cur);
 					return;
 				}	
 				else
 				{
 					par->set_right(NULL);
+					delete(cur);
 					return;
 				}
 			}
@@ -253,39 +257,45 @@ void BST<T>::remove(T val)
 		
 			else if (cur->get_left() != NULL && cur->get_right() == NULL)//remove node with only left child
 			{
-				node_count = node_count - 1;
-				if(par == NULL)//Node is root
+				node_count = node_count - 1;//decrement count
+				if(par == NULL)
 				{
 					root = cur->get_left();
+					delete(cur);
 					return;
 				}
 				else if(par->get_left() == cur)
 				{
 					par->set_left(cur->get_left());
+					delete(cur);
 					return;
 				}	
 				else
 				{
 					par->set_right(cur->get_left());
+					delete(cur);
 					return;
 				}
 			}
 			else if (cur->get_left() == NULL && cur->get_right() != NULL)//remove node with only right child
 			{
-				node_count = node_count - 1;
+				node_count = node_count - 1;//decrement count
 				if(par == NULL)//Node is root
 				{
 					root = cur->get_right();
+					delete(cur);
 					return;
 				}	
 				else if(par->get_left() == cur)
 				{
 					par->set_left(cur->get_right());
+					delete(cur);
 					return;
 				}
 				else 
 				{
-					par->set_right(cur->get_right());	
+					par->set_right(cur->get_right());
+					delete(cur);	
 					return;
 				}
 			}
@@ -303,12 +313,12 @@ void BST<T>::remove(T val)
 			}
 			return;
 		}
-		else if(cur->get_data() < val)
+		else if(cur->get_data() < val)//move left
 		{
 			par = cur;
 			cur = cur->get_right();
 		}
-		else
+		else//move right
 		{
 			par = cur;
 			cur = cur->get_left();
@@ -323,5 +333,5 @@ void BST<T>::remove(T val)
 template<class T>
 int BST<T>::get_size()
 {
-	return(node_count);
+	return(node_count);//return node count
 }
